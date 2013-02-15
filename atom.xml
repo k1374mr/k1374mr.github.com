@@ -4,7 +4,7 @@
   <title><![CDATA[Dense Forest Blog]]></title>
   <link href="http://k1374mr.github.com/atom.xml" rel="self"/>
   <link href="http://k1374mr.github.com/"/>
-  <updated>2013-02-15T11:44:55+09:00</updated>
+  <updated>2013-02-15T17:59:13+09:00</updated>
   <id>http://k1374mr.github.com/</id>
   <author>
     <name><![CDATA[Forest Hanter]]></name>
@@ -12,6 +12,26 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ここまでくるのが大変だった。。。]]></title>
+    <link href="http://k1374mr.github.com/blog/2013/02/15/test-git/"/>
+    <updated>2013-02-15T16:58:00+09:00</updated>
+    <id>http://k1374mr.github.com/blog/2013/02/15/test-git</id>
+    <content type="html"><![CDATA[<h1>ここまできた流れ</h1>
+
+<ol>
+<li>kvm インストール(GUIなし,nest)</li>
+<li>nginx インストール</li>
+<li>octopressインストール</li>
+<li>git用意</li>
+<li>octopress成果物をgitへ</li>
+</ol>
+
+
+<p><em>そう、nginxも何も要らなかった。。。。。。</em></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[kvm nest]]></title>
