@@ -4,7 +4,7 @@
   <title><![CDATA[Dense Forest Blog]]></title>
   <link href="http://k1374mr.github.com/atom.xml" rel="self"/>
   <link href="http://k1374mr.github.com/"/>
-  <updated>2013-02-15T17:59:13+09:00</updated>
+  <updated>2013-02-15T22:51:40+09:00</updated>
   <id>http://k1374mr.github.com/</id>
   <author>
     <name><![CDATA[Forest Hanter]]></name>
@@ -21,15 +21,37 @@
     <content type="html"><![CDATA[<h1>ここまできた流れ</h1>
 
 <ol>
-<li>kvm インストール(GUIなし,nest)</li>
-<li>nginx インストール</li>
+<li><p>kvm インストール(GUIなし,nest)</p>
+
+<p> 　　　iptablesでDNAT,SNAT、マスカレードするときはカーネルの.configいじらないといけなかった。3回コンパイル、2日かかった。</p></li>
+<li><p>nginx インストール</p></li>
+</ol>
+
+
+<p>　　これは簡単。コンパイルオプションも今は適当。後日勉強予定。。。。そう、予定。</p>
+
+<ol>
 <li>octopressインストール</li>
+</ol>
+
+
+<p>　　これも、gitでもってきただけ。あとはrbenv入れたり。</p>
+
+<ol>
 <li>git用意</li>
+</ol>
+
+
+<p>　　これは疲れた。。。githubってそれだけでwebサイト作れるんですねぇ。</p>
+
+<ol>
 <li>octopress成果物をgitへ</li>
 </ol>
 
 
-<p><em>そう、nginxも何も要らなかった。。。。。。</em></p>
+<p>　　dropboxで作ったMarkdownをoctpress（サーバ）へ→コード作成してgithubへ。そこで公開。ここは自動化できないかな。</p>
+
+<p>そう、nginxも何も要らなかった。。。。。。</p>
 ]]></content>
   </entry>
   
