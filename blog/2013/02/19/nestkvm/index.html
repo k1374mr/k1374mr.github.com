@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Dense Forest Blog</title>
+  <title>KVM nest - Dense Forest Blog</title>
   <meta name="author" content="Forest Hanter">
 
   
@@ -19,7 +19,7 @@ nestはカーネル3. &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://k1374mr.github.com/">
+  <link rel="canonical" href="http://k1374mr.github.com/blog/2013/02/19/nestkvm/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -63,15 +63,12 @@ nestはカーネル3. &hellip;">
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/02/19/nestkvm/">KVM Nest</a></h1>
+      <h1 class="entry-title">KVM Nest</h1>
     
     
       <p class="meta">
@@ -94,7 +91,7 @@ nestはカーネル3. &hellip;">
   </header>
 
 
-  <div class="entry-content"><h1>KVMのネスト</h1>
+<div class="entry-content"><h1>KVMのネスト</h1>
 
 <p> kvm on kvmをしてみたい。vps一台で、openvswitchとかlxcとかnginxとか試したいじゃないですかぁ？
  でも、何台も借りるのはコスパが悪い。そこでこいつの出番
@@ -165,91 +162,16 @@ default=0</li>
 <p>ところで、markdownで書くのって慣れてないとめんどくさいな。htmlのが楽。。。
 他のブログってどうやってるんやろ。</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/15/test-git/">ここまでくるのが大変だった。。。</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">Forest Hanter</span></span>
 
-<time datetime="2013-02-15T16:58:00+09:00" pubdate data-updated="true">Feb 15<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>ここまできた流れ</h1>
-
-<ol>
-<li><p>kvm インストール(GUIなし,nest)</p>
-
-<p> 　　　iptablesでDNAT,SNAT、マスカレードするときはカーネルの.configいじらないといけなかった。3回コンパイル、2日かかった。</p></li>
-<li><p>nginx インストール</p></li>
-</ol>
-
-
-<p>　　これは簡単。コンパイルオプションも今は適当。後日勉強予定。。。。そう、予定。</p>
-
-<ol>
-<li>octopressインストール</li>
-</ol>
-
-
-<p>　　これも、gitでもってきただけ。あとはrbenv入れたり。</p>
-
-<ol>
-<li>git用意</li>
-</ol>
-
-
-<p>　　これは疲れた。。。githubってそれだけでwebサイト作れるんですねぇ。</p>
-
-<ol>
-<li>octopress成果物をgitへ</li>
-</ol>
-
-
-<p>　　dropboxで作ったMarkdownをoctpress（サーバ）へ→コード作成してgithubへ。そこで公開。ここは自動化できないかな。</p>
-
-<p>そう、nginxも何も要らなかった。。。。。。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/14/kvm-nest/">Kvm Nest</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -261,27 +183,34 @@ default=0</li>
   
 
 
-<time datetime="2013-02-14T09:23:00+09:00" pubdate data-updated="true">Feb 14<span>th</span>, 2013</time>
-        
-      </p>
+<time datetime="2013-02-19T09:00:00+09:00" pubdate data-updated="true">Feb 19<span>th</span>, 2013</time>
+      
+
+
+    </p>
     
-  </header>
-
-
-  <div class="entry-content">
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://k1374mr.github.com/blog/2013/02/19/nestkvm/" data-via="" data-counturl="http://k1374mr.github.com/blog/2013/02/19/nestkvm/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/02/15/test-git/" title="Previous Post: ここまでくるのが大変だった。。。">&laquo; ここまでくるのが大変だった。。。</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -310,6 +239,7 @@ default=0</li>
 
   
 </aside>
+
 
     </div>
   </div>

@@ -4,7 +4,7 @@
   <title><![CDATA[Dense Forest Blog]]></title>
   <link href="http://k1374mr.github.com/atom.xml" rel="self"/>
   <link href="http://k1374mr.github.com/"/>
-  <updated>2013-02-18T00:39:03+09:00</updated>
+  <updated>2013-02-20T15:29:30+09:00</updated>
   <id>http://k1374mr.github.com/</id>
   <author>
     <name><![CDATA[Forest Hanter]]></name>
@@ -12,6 +12,84 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[KVM nest]]></title>
+    <link href="http://k1374mr.github.com/blog/2013/02/19/nestkvm/"/>
+    <updated>2013-02-19T09:00:00+09:00</updated>
+    <id>http://k1374mr.github.com/blog/2013/02/19/nestkvm</id>
+    <content type="html"><![CDATA[<h1>KVMのネスト</h1>
+
+<p> kvm on kvmをしてみたい。vps一台で、openvswitchとかlxcとかnginxとか試したいじゃないですかぁ？
+ でも、何台も借りるのはコスパが悪い。そこでこいつの出番
+ ♪デバーン、デバーン、人は誰ーでもー</p>
+
+<ol>
+<li><p>カーネルのアップデート
+nestはカーネル3.2以降で使えるらしい。なので、当時の最新カーネル3.7系を使用</p>
+
+<ul>
+<li>cd /usr/local/src/</li>
+<li>wget http://www.kernel.org/pub/linux/kernel/v3.0/linux-3.7.1.tar.bz2</li>
+<li>tar jxvf linux-3.7.1.tar.bz2</li>
+<li>yum install -y gcc make</li>
+<li>cd /usr/local/src/linux-3.7.1</li>
+<li>cp -p /boot/config-2.6.32-220.el6.x86_64 ./.config</li>
+<li>make oldconfig   → ぜーんぶyesでいいんじゃないかな。</li>
+<li><p>vi .config<br/>
+ここで IP: Netfilter Configuration を全部有効に。  menuconfigとかは使ってません。パッケージ入れるのめんどくさかったので。<br/>
+これがないと、iptables使ってのsnat、dnat、masquaradeが出来ません。なんでやねーん。みんなあんまり使わないのかな。</p></li>
+<li><p>make &amp;&amp; make modules_install &amp;&amp; make install</p></li>
+<li>うまくいったら、vi /boot/grub/grub.conf を修正。<br/>
+default=0</li>
+<li>勇気を出して再起動。上がってこない、つながらない場合は失敗かな。</li>
+<li><p>ここで3回失敗<br/>
+ # iptables -L -t nat<br/>
+ # lsmod | egrep -i &#8216;(nat|masq)&#8217;<br/>
+   ipt_MASQUERADE          2401  3<br/>
+   xt_nat                  2055  1<br/>
+   iptable_nat             3620  1<br/>
+   nf_nat_ipv4             4040  1 iptable_nat<br/>
+   nf_nat                 19522  4 ipt_MASQUERADE,xt_nat,iptable_nat,nf_nat_ipv4<br/>
+   ip_tables              19992  2 iptable_filter,iptable_nat<br/>
+   ebtable_nat             2008  0<br/>
+   ebtables               27154  1 ebtable_nat<br/>
+   nf_conntrack           87254  7 ipt_MASQUERADE,iptable_nat,nf_conntrack_ipv4,nf_nat_ipv4,nf_nat,nf_conntrack_ipv6,xt_state</p>
+
+<p>あった。。。ほっ</p></li>
+</ul>
+</li>
+<li><p>nest設定</p>
+
+<ul>
+<li><p>設定
+こんなの作って<br/>
+  # more /etc/modprobe.d/nest.conf<br/>
+  options kvm_amd nested=1</p>
+
+<p>  # modprove -r kvm_amd<br/>
+  # modprove kvm_amd<br/>
+すると<br/>
+  # modinfo kvm_amd<br/>
+   parm:           nested:int</p>
+
+<p>  # more /sys/module/kvm_intel/parameters/nested<br/>
+   1</p></li>
+</ul>
+
+
+<p> こういうのが出ていればOK？<br/>
+ /sys/module配下のファイルはあまり見慣れてないけど、さらっと見れたらカッコいい。<br/>
+ 機会があれば調べてみよう</p></li>
+</ol>
+
+
+<p>あとは、kvmでvm作成。。。。。できたーーーー。</p>
+
+<p>ところで、markdownで書くのって慣れてないとめんどくさいな。htmlのが楽。。。
+他のブログってどうやってるんやろ。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ここまでくるのが大変だった。。。]]></title>
