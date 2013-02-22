@@ -4,7 +4,7 @@
   <title><![CDATA[Dense Forest Blog]]></title>
   <link href="http://k1374mr.github.com/atom.xml" rel="self"/>
   <link href="http://k1374mr.github.com/"/>
-  <updated>2013-02-20T15:29:30+09:00</updated>
+  <updated>2013-02-22T12:57:09+09:00</updated>
   <id>http://k1374mr.github.com/</id>
   <author>
     <name><![CDATA[Forest Hanter]]></name>
@@ -12,6 +12,72 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[inotifyでディレクトリの更新チェック]]></title>
+    <link href="http://k1374mr.github.com/blog/2013/02/21/inotify/"/>
+    <updated>2013-02-21T09:00:00+09:00</updated>
+    <id>http://k1374mr.github.com/blog/2013/02/21/inotify</id>
+    <content type="html"><![CDATA[<p>octopressでmarkdown作って、ログインしてからdeployとか、、、、、めんどいわい！<br/>
+と思ったので、これに挑戦。<br/>
+kernel 2.6なんぼから使えるようになったinotifyは、前からあったdnotifyと違って、<br/>
+何が変わったかまで教えてくれるそうな。。。。dnotifyってなんでしょうね（笑）
+それはあくまでカーネル内部の話で、残念ながらc言語もまだわからず、
+カーネルいじったり使ったりなんてそんな、、、、まだ無理。</p>
+
+<h2>そこで、inotify-toolsの登場。</h2>
+
+<p>ようするに、素人でも使えるコマンドを装備できます。</p>
+
+<h3>1. インストール</h3>
+
+<p>なんと、centosにはrpmないみたい。。。。そこでcentosの未来人であるfedoraさんに相談。<br/>
+あった。<br/>
+  リポジトリが欲しいな</p>
+
+<blockquote><p># rpm -ivh http://ftp.riken.jp/Linux/fedora/epel/6/i386/epel-release-6-8.noarch.rpm<br/>
+# cat /etc/yum.repos.d/epel.repo<br/>
+# rpm -ivh inotify-tools -y<br/>
+# inotifywait &#8211;help<br/>
+ 入った。rpmいいね！</p></blockquote>
+
+<h3>2. さっそく使ってみた。</h3>
+
+<blockquote><p># inotifywait /tmp -m        これの前にscreenか何かで別コンソール用意</p>
+
+<blockquote><p>Setting up watches.<br/>
+Watches established.<br/>
+/tmp/ MODIFY test<br/>
+/tmp/ OPEN test<br/>
+/tmp/ MODIFY test<br/>
+/tmp/ CLOSE_WRITE,CLOSE test<br/>
+/tmp/ CREATE test2<br/>
+/tmp/ OPEN test2<br/>
+/tmp/ ATTRIB test2<br/>
+/tmp/ CLOSE_WRITE,CLOSE test2</p></blockquote></blockquote>
+
+<p>このコマンドは、監視用かな。
+inotifywaitは、オプション無しだと一回何か起こったら終わり。
+常駐させる時は-mを。
+他にもよく使うのは、rかな。recursive、再帰的。綴りあってるんかな。</p>
+
+<p>もう一つのコマンド、inotifywatch</p>
+
+<blockquote><p># inotifywatch -t 20 /tmp -r</p>
+
+<blockquote><p>Establishing watches&#8230;<br/>
+Finished establishing watches, now collecting statistics.<br/>
+total  attrib  close_write  open  filename<br/>
+3      1       1            1     /tmp/</p></blockquote></blockquote>
+
+<p>-tは待つ秒数を指定、結果にはその間の変更の統計が表示。</p>
+
+<h3>3. 結論</h3>
+
+<p>どっち使うかは考えよう。編集中のが更新されたら嫌やし、何かキーワード決めて、それがあったらとか。
+to be continue&#8230;</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[KVM nest]]></title>
