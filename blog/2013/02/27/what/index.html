@@ -5,12 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>KVM nest - Dense Forest Blog</title>
+  <title>次回予告！？ - Dense Forest Blog</title>
   <meta name="author" content="Forest Hanter">
 
   
-  <meta name="description" content="KVMのネスト kvm on kvmをしてみたい。vps一台で、openvswitchとかlxcとかnginxとか試したいじゃないですかぁ？ でも、何台も借りるのはコスパが悪い。そこでこいつの出番 ♪デバーン、デバーン、人は誰ーでもー カーネルのアップデート
-nestはカーネル3. &hellip;">
+  <meta name="description" content="なぜか。。。 なぜか、Googleのwebマスターツールで見るとlxcで検索した結果にこのサイトが
+入ったよう。 なんで（笑） lxc、まだやってない。先にfedora18いれてみようと思ってたのですが、
+fedora → lxc でやってみるかぁ。
+fedoraの新しいの、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +21,7 @@ nestはカーネル3. &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://k1374mr.github.com/blog/2013/02/19/nestkvm/">
+  <link rel="canonical" href="http://k1374mr.github.com/blog/2013/02/27/what/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -68,7 +70,7 @@ nestはカーネル3. &hellip;">
   
   <header>
     
-      <h1 class="entry-title">KVM Nest</h1>
+      <h1 class="entry-title">次回予告！？</h1>
     
     
       <p class="meta">
@@ -84,83 +86,25 @@ nestはカーネル3. &hellip;">
   
 
 
-<time datetime="2013-02-19T09:00:00+09:00" pubdate data-updated="true">Feb 19<span>th</span>, 2013</time>
+<time datetime="2013-02-27T09:00:00+09:00" pubdate data-updated="true">Feb 27<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h1>KVMのネスト</h1>
+<div class="entry-content"><h2>なぜか。。。</h2>
 
-<p> kvm on kvmをしてみたい。vps一台で、openvswitchとかlxcとかnginxとか試したいじゃないですかぁ？
- でも、何台も借りるのはコスパが悪い。そこでこいつの出番
- ♪デバーン、デバーン、人は誰ーでもー</p>
+<p>なぜか、Googleのwebマスターツールで見るとlxcで検索した結果にこのサイトが
+入ったよう。</p>
 
-<ol>
-<li><p>カーネルのアップデート
-nestはカーネル3.2以降で使えるらしい。なので、当時の最新カーネル3.7系を使用</p>
+<h3>なんで（笑）</h3>
 
-<ul>
-<li>cd /usr/local/src/</li>
-<li>wget http://www.kernel.org/pub/linux/kernel/v3.0/linux-3.7.1.tar.bz2</li>
-<li>tar jxvf linux-3.7.1.tar.bz2</li>
-<li>yum install -y gcc make</li>
-<li>cd /usr/local/src/linux-3.7.1</li>
-<li>cp -p /boot/config-2.6.32-220.el6.x86_64 ./.config</li>
-<li>make oldconfig   → ぜーんぶyesでいいんじゃないかな。</li>
-<li><p>vi .config<br/>
-ここで IP: Netfilter Configuration を全部有効に。  menuconfigとかは使ってません。パッケージ入れるのめんどくさかったので。<br/>
-これがないと、iptables使ってのsnat、dnat、masquaradeが出来ません。なんでやねーん。みんなあんまり使わないのかな。</p></li>
-<li><p>make &amp;&amp; make modules_install &amp;&amp; make install</p></li>
-<li>うまくいったら、vi /boot/grub/grub.conf を修正。<br/>
-default=0</li>
-<li>勇気を出して再起動。上がってこない、つながらない場合は失敗かな。</li>
-<li><p>ここで3回失敗<br/>
- # iptables -L -t nat<br/>
- # lsmod | egrep -i &#8216;(nat|masq)&#8217;<br/>
-   ipt_MASQUERADE          2401  3<br/>
-   xt_nat                  2055  1<br/>
-   iptable_nat             3620  1<br/>
-   nf_nat_ipv4             4040  1 iptable_nat<br/>
-   nf_nat                 19522  4 ipt_MASQUERADE,xt_nat,iptable_nat,nf_nat_ipv4<br/>
-   ip_tables              19992  2 iptable_filter,iptable_nat<br/>
-   ebtable_nat             2008  0<br/>
-   ebtables               27154  1 ebtable_nat<br/>
-   nf_conntrack           87254  7 ipt_MASQUERADE,iptable_nat,nf_conntrack_ipv4,nf_nat_ipv4,nf_nat,nf_conntrack_ipv6,xt_state</p>
+<p>lxc、まだやってない。先にfedora18いれてみようと思ってたのですが、<br/>
+fedora → lxc でやってみるかぁ。<br/>
+fedoraの新しいの、日経linuxでもやってましたがいろいろ変わっているみたいです。</p>
 
-<p>あった。。。ほっ</p></li>
-</ul>
-</li>
-<li><p>nest設定</p>
-
-<ul>
-<li><p>設定
-こんなの作って<br/>
-  # more /etc/modprobe.d/nest.conf<br/>
-  options kvm_amd nested=1</p>
-
-<p>  # modprove -r kvm_amd<br/>
-  # modprove kvm_amd<br/>
-すると<br/>
-  # modinfo kvm_amd<br/>
-   parm:           nested:int</p>
-
-<p>  # more /sys/module/kvm_intel/parameters/nested<br/>
-   1</p></li>
-</ul>
-
-
-<p> こういうのが出ていればOK？<br/>
- /sys/module配下のファイルはあまり見慣れてないけど、さらっと見れたらカッコいい。<br/>
- 機会があれば調べてみよう</p></li>
-</ol>
-
-
-<p>あとは、kvmでvm作成。。。。。できたーーーー。</p>
-
-<p>ところで、markdownで書くのって慣れてないとめんどくさいな。htmlのが楽。。。
-他のブログってどうやってるんやろ。</p>
+<p>Let&#8217;s try!!!</p>
 </div>
 
 
@@ -183,7 +127,7 @@ default=0</li>
   
 
 
-<time datetime="2013-02-19T09:00:00+09:00" pubdate data-updated="true">Feb 19<span>th</span>, 2013</time>
+<time datetime="2013-02-27T09:00:00+09:00" pubdate data-updated="true">Feb 27<span>th</span>, 2013</time>
       
 
 
@@ -191,7 +135,7 @@ default=0</li>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://k1374mr.github.com/blog/2013/02/19/nestkvm/" data-via="" data-counturl="http://k1374mr.github.com/blog/2013/02/19/nestkvm/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://k1374mr.github.com/blog/2013/02/27/what/" data-via="" data-counturl="http://k1374mr.github.com/blog/2013/02/27/what/" >Tweet</a>
   
   
   
@@ -202,10 +146,8 @@ default=0</li>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/02/15/test-git/" title="Previous Post: ここまでくるのが大変だった。。。">&laquo; ここまでくるのが大変だった。。。</a>
+        <a class="basic-alignment left" href="/blog/2013/02/21/inotify/" title="Previous Post: inotifyでディレクトリの更新チェック">&laquo; inotifyでディレクトリの更新チェック</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/02/21/inotify/" title="Next Post: inotifyでディレクトリの更新チェック">inotifyでディレクトリの更新チェック &raquo;</a>
       
     </p>
   </footer>

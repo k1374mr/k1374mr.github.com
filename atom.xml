@@ -4,7 +4,7 @@
   <title><![CDATA[Dense Forest Blog]]></title>
   <link href="http://k1374mr.github.com/atom.xml" rel="self"/>
   <link href="http://k1374mr.github.com/"/>
-  <updated>2013-02-22T13:03:13+09:00</updated>
+  <updated>2013-02-26T10:20:27+09:00</updated>
   <id>http://k1374mr.github.com/</id>
   <author>
     <name><![CDATA[Forest Hanter]]></name>
@@ -12,6 +12,26 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[次回予告！？]]></title>
+    <link href="http://k1374mr.github.com/blog/2013/02/27/what/"/>
+    <updated>2013-02-27T09:00:00+09:00</updated>
+    <id>http://k1374mr.github.com/blog/2013/02/27/what</id>
+    <content type="html"><![CDATA[<h2>なぜか。。。</h2>
+
+<p>なぜか、Googleのwebマスターツールで見るとlxcで検索した結果にこのサイトが
+入ったよう。</p>
+
+<h3>なんで（笑）</h3>
+
+<p>lxc、まだやってない。先にfedora18いれてみようと思ってたのですが、<br/>
+fedora → lxc でやってみるかぁ。<br/>
+fedoraの新しいの、日経linuxでもやってましたがいろいろ変わっているみたいです。</p>
+
+<p>Let&#8217;s try!!!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[inotifyでディレクトリの更新チェック]]></title>
