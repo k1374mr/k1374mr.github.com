@@ -122,15 +122,15 @@ ignore client-updates;</p>
 
 <p>subnet 192.168.10.0 netmask 255.255.255.0 {</p>
 
-<pre><code>   option routers                  192.168.10.1;  
-   option subnet-mask              255.255.255.0;  
-   option domain-name-servers      8.8.8.8;  
-   option time-offset              -18000;  
-   filename "/pxeboot/pxelinux.0";  
-   next-server 192.168.10.2;  
-   range dynamic-bootp 192.168.10.200 192.168.10.250;  
-   default-lease-time 21600;  
-   max-lease-time 43200;  
+<pre><code>    option routers                  192.168.10.1;  
+    option subnet-mask              255.255.255.0;  
+    option domain-name-servers      8.8.8.8;  
+    option time-offset              -18000;  
+    filename "/pxeboot/pxelinux.0";  
+    next-server 192.168.10.2;  
+    range dynamic-bootp 192.168.10.200 192.168.10.250;  
+    default-lease-time 21600;  
+    max-lease-time 43200;  
 </code></pre>
 
 <p>#        host rhev01 {<br/>
@@ -158,15 +158,15 @@ ad-hocは旧バージョンのdhcpdとの互換性を維持する目的の場合
 
 <blockquote><p>subnet 192.168.10.0 netmask 255.255.255.0 {</p>
 
-<pre><code>   option routers                  192.168.10.1;  
-   option subnet-mask              255.255.255.0;  
-   option domain-name-servers      8.8.8.8;  
-   option time-offset              -18000;  
-   filename "/pxeboot/pxelinux.0";  
-   next-server 192.168.10.2;  
-   range dynamic-bootp 192.168.10.200 192.168.10.250;  
-   default-lease-time 21600;  
-   max-lease-time 43200;  
+<pre><code>    option routers                  192.168.10.1;  
+    option subnet-mask              255.255.255.0;  
+    option domain-name-servers      8.8.8.8;  
+    option time-offset              -18000;  
+    filename "/pxeboot/pxelinux.0";  
+    next-server 192.168.10.2;  
+    range dynamic-bootp 192.168.10.200 192.168.10.250;  
+    default-lease-time 21600;  
+    max-lease-time 43200;  
 </code></pre></blockquote>
 
 <p>起動  <br/>
@@ -182,16 +182,16 @@ ad-hocは旧バージョンのdhcpdとの互換性を維持する目的の場合
 <blockquote><p>service tftp<br/>
 {</p>
 
-<pre><code>   socket_type             = dgram  
-   protocol                = udp  
-   wait                    = yes  
-   user                    = root  
-   server                  = /usr/sbin/in.tftpd  
-   server_args             = -s /var/lib/tftpboot  
-   disable                 = no  
-   per_source              = 11  
-   cps                     = 100 2  
-   flags                   = IPv4  
+<pre><code>    socket_type             = dgram  
+    protocol                = udp  
+    wait                    = yes  
+    user                    = root  
+    server                  = /usr/sbin/in.tftpd  
+    server_args             = -s /var/lib/tftpboot  
+    disable                 = no  
+    per_source              = 11  
+    cps                     = 100 2  
+    flags                   = IPv4  
 </code></pre>
 
 <p>}</p></blockquote>
@@ -255,30 +255,33 @@ append initrd=/fedora/initrd.img ks=http://192.168.10.2/ks/fedora_18_64.cfg</p><
 <p># vi /usr/local/src/nginx/conf/nginx.conf</p>
 
 <blockquote><p>worker_processes  1;<br/>
-events {<br/>
-   worker_connections  1024;<br/>
-}<br/>
-http {<br/>
-   include       mime.types;<br/>
-   default_type  application/octet-stream <br/>
-   sendfile        on;<br/>
-   keepalive_timeout  65;<br/>
-   server {</p>
+events {</p>
 
-<pre><code>   listen       80;  
-   server_name  localhost;  
-   location / {  
-       root   /var/www;  
-       index  index.html index.htm;  
-   }  
-   error_page   500 502 503 504  /50x.html;  
-   location = /50x.html {  
-       root   html;  
-   }  
+<pre><code>worker_connections  1024;  
 </code></pre>
 
-<p>   }<br/>
-}</p></blockquote>
+<p>}<br/>
+http {</p>
+
+<pre><code>include       mime.types;  
+default_type  application/octet-stream   
+sendfile        on;  
+keepalive_timeout  65;  
+server {  
+    listen       80;  
+    server_name  localhost;  
+    location / {  
+        root   /var/www;  
+        index  index.html index.htm;  
+    }  
+    error_page   500 502 503 504  /50x.html;  
+    location = /50x.html {  
+        root   html;  
+    }  
+}  
+</code></pre>
+
+<p>}</p></blockquote>
 
 <p># vi /var/lib/tftpboot/pxelinux.cfg/default</p>
 
@@ -298,11 +301,11 @@ append initrd=/fedora/initrd.img ks=http://192.168.10.2/ks/fedora_18_64.cfg</p><
 
 <h3>インストール</h3>
 
-<blockquote><p># virt-install &#8211;connect qemu:///system &#8211;hvm &#8211;name cent63_64 &#8211;ram 512 \<br/>
-&#8211;vcpus 1 &#8211;os-type Linux &#8211;disk path=/mnt/cent63_64.img &#8211;network network=vmnet \<br/>
-&#8211;keymap ja &#8211;nographics &#8211;location /mnt/CentOS-6.3-x86_64-bin-DVD1.iso \<br/>
-&#8211;extra-args=&#8217;console=tty0 console=ttyS0,115200n8 \<br/>
-ks=http://192.168.10.2/ks/centos63_64.cfg&#8217;</p></blockquote>
+<blockquote><p> # virt-install &#8211;connect qemu:///system &#8211;hvm &#8211;name cent63_64 &#8211;ram 512 \<br/>
+ &#8211;vcpus 1 &#8211;os-type Linux &#8211;disk path=/mnt/cent63_64.img &#8211;network network=vmnet \<br/>
+ &#8211;keymap ja &#8211;nographics &#8211;location /mnt/CentOS-6.3-x86_64-bin-DVD1.iso \<br/>
+ &#8211;extra-args=&#8217;console=tty0 console=ttyS0,115200n8 \<br/>
+ ks=http://192.168.10.2/ks/centos63_64.cfg&#8217;</p></blockquote>
 
 <p>インストールできたーーー。</p>
 
