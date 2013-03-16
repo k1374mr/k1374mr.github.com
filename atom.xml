@@ -4,7 +4,7 @@
   <title><![CDATA[Dense Forest Blog]]></title>
   <link href="http://k1374mr.github.com/atom.xml" rel="self"/>
   <link href="http://k1374mr.github.com/"/>
-  <updated>2013-03-16T10:02:22+09:00</updated>
+  <updated>2013-03-16T10:05:55+09:00</updated>
   <id>http://k1374mr.github.com/</id>
   <author>
     <name><![CDATA[Forest Hanter]]></name>
@@ -33,36 +33,36 @@
 
 <p># vi /etc/sysconfig/dhcpd  dhcpサーバとして使用するnicの指定</p>
 
-<blockquote><p>DHCPDARGS=eth0</p></blockquote>
+<blockquote><pre><code>   DHCPDARGS=eth0  
+</code></pre></blockquote>
 
 <p># vi /etc/dhcp/dhcpd.conf  dhcpサーバの設定</p>
 
-<blockquote><p>ddns-update-style interim;<br/>
-ignore client-updates;</p>
+<blockquote><pre><code>   ddns-update-style interim;  
+   ignore client-updates;  
 
-<p>#server-identifier hands.labs.example.com;</p>
+   \#server-identifier hands.labs.example.com;  
 
-<p>#option domain-name &#8220;labs.example.com&#8221;;<br/>
-#option domain-name-servers hands.labs.example.com;</p>
+   \#option domain-name "labs.example.com";  
+   \#option domain-name-servers hands.labs.example.com;  
 
-<p>subnet 192.168.10.0 netmask 255.255.255.0 {</p>
+   subnet 192.168.10.0 netmask 255.255.255.0 {  
+           option routers                  192.168.10.1;  
+           option subnet-mask              255.255.255.0;  
+           option domain-name-servers      8.8.8.8;  
+           option time-offset              -18000;  
+           filename "/pxeboot/pxelinux.0";  
+           next-server 192.168.10.2;  
+           range dynamic-bootp 192.168.10.200 192.168.10.250;  
+           default-lease-time 21600;  
+           max-lease-time 43200;  
 
-<pre><code>    option routers                  192.168.10.1;  
-    option subnet-mask              255.255.255.0;  
-    option domain-name-servers      8.8.8.8;  
-    option time-offset              -18000;  
-    filename "/pxeboot/pxelinux.0";  
-    next-server 192.168.10.2;  
-    range dynamic-bootp 192.168.10.200 192.168.10.250;  
-    default-lease-time 21600;  
-    max-lease-time 43200;  
-</code></pre>
-
-<p>#        host rhev01 {<br/>
-#               hardware ethernet XX:XX:XX:XX:XX:XX;<br/>
-#                fixed-address 192.168.100.101;<br/>
-#        }<br/>
-}</p></blockquote>
+   \#        host rhev01 {  
+   \#               hardware ethernet XX:XX:XX:XX:XX:XX;  
+   \#                fixed-address 192.168.100.101;  
+   \#        }  
+   }  
+</code></pre></blockquote>
 
 <h4>setting detail</h4>
 
@@ -81,17 +81,16 @@ ad-hocは旧バージョンのdhcpdとの互換性を維持する目的の場合
 192.168.10.0/24、デフォルトゲートウェイは192.168.10.1、DNSは8.8.8.8、設定ファイルの取得先は192.168.10.2、  <br/>
 範囲は200〜250、貸し出し時間は21600秒(6時間)、クライアントから指定してもよい最大貸し出し時間は41200秒。</p>
 
-<blockquote><p>subnet 192.168.10.0 netmask 255.255.255.0 {</p>
-
-<pre><code>    option routers                  192.168.10.1;  
-    option subnet-mask              255.255.255.0;  
-    option domain-name-servers      8.8.8.8;  
-    option time-offset              -18000;  
-    filename "/pxeboot/pxelinux.0";  
-    next-server 192.168.10.2;  
-    range dynamic-bootp 192.168.10.200 192.168.10.250;  
-    default-lease-time 21600;  
-    max-lease-time 43200;  
+<blockquote><pre><code>   subnet 192.168.10.0 netmask 255.255.255.0 {  
+           option routers                  192.168.10.1;  
+           option subnet-mask              255.255.255.0;  
+           option domain-name-servers      8.8.8.8;  
+           option time-offset              -18000;  
+           filename "/pxeboot/pxelinux.0";  
+           next-server 192.168.10.2;  
+           range dynamic-bootp 192.168.10.200 192.168.10.250;  
+           default-lease-time 21600;  
+           max-lease-time 43200;  
 </code></pre></blockquote>
 
 <p>起動  <br/>
@@ -104,22 +103,20 @@ ad-hocは旧バージョンのdhcpdとの互換性を維持する目的の場合
 
 <p># vi /etc/xinetd.d/tftp</p>
 
-<blockquote><p>service tftp<br/>
-{</p>
-
-<pre><code>    socket_type             = dgram  
-    protocol                = udp  
-    wait                    = yes  
-    user                    = root  
-    server                  = /usr/sbin/in.tftpd  
-    server_args             = -s /var/lib/tftpboot  
-    disable                 = no  
-    per_source              = 11  
-    cps                     = 100 2  
-    flags                   = IPv4  
-</code></pre>
-
-<p>}</p></blockquote>
+<blockquote><pre><code>   service tftp  
+   {  
+           socket_type             = dgram  
+           protocol                = udp  
+           wait                    = yes  
+           user                    = root  
+           server                  = /usr/sbin/in.tftpd  
+           server_args             = -s /var/lib/tftpboot  
+           disable                 = no  
+           per_source              = 11  
+           cps                     = 100 2  
+           flags                   = IPv4  
+   }  
+</code></pre></blockquote>
 
 <p># /etc/init.d xinetd restart<br/>
 # chkconfig &#8211;list | grep tftp</p>
@@ -145,27 +142,29 @@ ad-hocは旧バージョンのdhcpdとの互換性を維持する目的の場合
 
 <p># vi /var/lib/tftpboot/boot.msg</p>
 
-<blockquote><p>\==============================<br/>
-Welcome to Kickstart Installer<br/>
-\==============================<br/>
-1. CentOS 6.3 (x86_64) - Preconfigured  <br/>
-2. fedora18 (x86_64)</p></blockquote>
+<blockquote><pre><code>   \==============================  
+   Welcome to Kickstart Installer  
+   \==============================  
+   1. CentOS 6.3 (x86_64) - Preconfigured    
+   2. fedora18 (x86_64)    
+</code></pre></blockquote>
 
 <p>上記の選択肢とキックスタートの対応<br/>
 # vi /var/lib/tftpboot/pxelinux.cfg/default</p>
 
 <p># cat /var/lib/tftpboot/pxelinux.cfg/default</p>
 
-<blockquote><p>prompt 1<br/>
-display boot.msg</p>
+<blockquote><pre><code>   prompt 1  
+   display boot.msg  
 
-<p>label 1<br/>
-kernel /centos63_64/vmlinuz<br/>
-append initrd=/centos63_64/initrd.img ks=http://192.168.10.2/ks/centos63_64.cfg</p>
+   label 1  
+   kernel /centos63_64/vmlinuz  
+   append initrd=/centos63_64/initrd.img ks=http://192.168.10.2/ks/centos63_64.cfg  
 
-<p>label 2<br/>
-kernel /fedora/vmlinuz<br/>
-append initrd=/fedora/initrd.img ks=http://192.168.10.2/ks/fedora_18_64.cfg</p></blockquote>
+   label 2  
+   kernel /fedora/vmlinuz  
+   append initrd=/fedora/initrd.img ks=http://192.168.10.2/ks/fedora_18_64.cfg  
+</code></pre></blockquote>
 
 <h3>kickstartコンフィグ作成</h3>
 
@@ -179,46 +178,42 @@ append initrd=/fedora/initrd.img ks=http://192.168.10.2/ks/fedora_18_64.cfg</p><
 
 <p># vi /usr/local/src/nginx/conf/nginx.conf</p>
 
-<blockquote><p>worker_processes  1;<br/>
-events {</p>
-
-<pre><code>worker_connections  1024;  
-</code></pre>
-
-<p>}<br/>
-http {</p>
-
-<pre><code>include       mime.types;  
-default_type  application/octet-stream   
-sendfile        on;  
-keepalive_timeout  65;  
-server {  
-    listen       80;  
-    server_name  localhost;  
-    location / {  
-        root   /var/www;  
-        index  index.html index.htm;  
-    }  
-    error_page   500 502 503 504  /50x.html;  
-    location = /50x.html {  
-        root   html;  
-    }  
-}  
-</code></pre>
-
-<p>}</p></blockquote>
+<blockquote><pre><code>   worker_processes  1;  
+   events {  
+       worker_connections  1024;  
+   }  
+   http {  
+       include       mime.types;  
+       default_type  application/octet-stream   
+       sendfile        on;  
+       keepalive_timeout  65;  
+       server {  
+           listen       80;  
+           server_name  localhost;  
+           location / {  
+               root   /var/www;  
+               index  index.html index.htm;  
+           }  
+           error_page   500 502 503 504  /50x.html;  
+           location = /50x.html {  
+               root   html;  
+           }  
+       }  
+   }  
+</code></pre></blockquote>
 
 <p># vi /var/lib/tftpboot/pxelinux.cfg/default</p>
 
-<blockquote><p>display boot.msg</p>
+<blockquote><pre><code>   display boot.msg  
 
-<p>label 1<br/>
-kernel /centos63_64/vmlinuz<br/>
-append initrd=/centos63_64/initrd.img ks=http://192.168.10.2/ks/centos63_64.cfg</p>
+   label 1  
+   kernel /centos63_64/vmlinuz  
+   append initrd=/centos63_64/initrd.img ks=http://192.168.10.2/ks/centos63_64.cfg  
 
-<p>label 2<br/>
-kernel /fedora/vmlinuz<br/>
-append initrd=/fedora/initrd.img ks=http://192.168.10.2/ks/fedora_18_64.cfg</p></blockquote>
+   label 2  
+   kernel /fedora/vmlinuz  
+   append initrd=/fedora/initrd.img ks=http://192.168.10.2/ks/fedora_18_64.cfg  
+</code></pre></blockquote>
 
 <p># wget http://192.168.10.2/ks/centos63_64.cfg</p>
 
@@ -226,11 +221,12 @@ append initrd=/fedora/initrd.img ks=http://192.168.10.2/ks/fedora_18_64.cfg</p><
 
 <h3>インストール</h3>
 
-<blockquote><p> # virt-install &#8211;connect qemu:///system &#8211;hvm &#8211;name cent63_64 &#8211;ram 512 \<br/>
- &#8211;vcpus 1 &#8211;os-type Linux &#8211;disk path=/mnt/cent63_64.img &#8211;network network=vmnet \<br/>
- &#8211;keymap ja &#8211;nographics &#8211;location /mnt/CentOS-6.3-x86_64-bin-DVD1.iso \<br/>
- &#8211;extra-args=&#8217;console=tty0 console=ttyS0,115200n8 \<br/>
- ks=http://192.168.10.2/ks/centos63_64.cfg&#8217;</p></blockquote>
+<blockquote><pre><code>    \# virt-install --connect qemu:///system --hvm --name cent63_64 --ram 512 \  
+    --vcpus 1 --os-type Linux --disk path=/mnt/cent63_64.img --network network=vmnet \  
+    --keymap ja --nographics --location /mnt/CentOS-6.3-x86_64-bin-DVD1.iso \  
+    --extra-args='console=tty0 console=ttyS0,115200n8 \  
+    ks=http://192.168.10.2/ks/centos63_64.cfg'
+</code></pre></blockquote>
 
 <p>インストールできたーーー。</p>
 
