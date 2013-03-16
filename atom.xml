@@ -4,7 +4,7 @@
   <title><![CDATA[Dense Forest Blog]]></title>
   <link href="http://k1374mr.github.com/atom.xml" rel="self"/>
   <link href="http://k1374mr.github.com/"/>
-  <updated>2013-02-26T10:20:27+09:00</updated>
+  <updated>2013-03-16T09:55:34+09:00</updated>
   <id>http://k1374mr.github.com/</id>
   <author>
     <name><![CDATA[Forest Hanter]]></name>
@@ -12,6 +12,232 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[kvmでのkickstart]]></title>
+    <link href="http://k1374mr.github.com/blog/2013/02/28/kickstart/"/>
+    <updated>2013-02-28T09:00:00+09:00</updated>
+    <id>http://k1374mr.github.com/blog/2013/02/28/kickstart</id>
+    <content type="html"><![CDATA[<h2>fedoraインストールできず。。。</h2>
+
+<p>前回の自分への予告通り、fedora18をチャレンジ。。。。が、コンソール真っ白</p>
+
+<h4>はい、centosにしまーす。</h4>
+
+<p>折角ならkickstartやってみる。pxeブート使えるように設定はするが、  <br/>
+今回では使わない。</p>
+
+<h3>DHCPサーバ用意</h3>
+
+<p># yum install -y dhcp</p>
+
+<p># vi /etc/sysconfig/dhcpd  dhcpサーバとして使用するnicの指定</p>
+
+<blockquote><p>DHCPDARGS=eth0</p></blockquote>
+
+<p># vi /etc/dhcp/dhcpd.conf  dhcpサーバの設定</p>
+
+<blockquote><p>ddns-update-style interim;<br/>
+ignore client-updates;</p>
+
+<p>#server-identifier hands.labs.example.com;</p>
+
+<p>#option domain-name &#8220;labs.example.com&#8221;;<br/>
+#option domain-name-servers hands.labs.example.com;</p>
+
+<p>subnet 192.168.10.0 netmask 255.255.255.0 {</p>
+
+<pre><code>   option routers                  192.168.10.1;  
+   option subnet-mask              255.255.255.0;  
+   option domain-name-servers      8.8.8.8;  
+   option time-offset              -18000;  
+   filename "/pxeboot/pxelinux.0";  
+   next-server 192.168.10.2;  
+   range dynamic-bootp 192.168.10.200 192.168.10.250;  
+   default-lease-time 21600;  
+   max-lease-time 43200;  
+</code></pre>
+
+<p>#        host rhev01 {<br/>
+#               hardware ethernet XX:XX:XX:XX:XX:XX;<br/>
+#                fixed-address 192.168.100.101;<br/>
+#        }<br/>
+}</p></blockquote>
+
+<h4>setting detail</h4>
+
+<p>ddns-update-style interim;  <br/>
+　このパラメータでは、DynamicDNS（動的DNS）情報の更新方法について指定。  <br/>
+「interim、ad-hoc、none」を指定することができます。DHCPとDynamicDNSとの連携を行う場合は、interimを指定。  <br/>
+ad-hocは旧バージョンのdhcpdとの互換性を維持する目的の場合に指定します。</p>
+
+<p>ignore client-updates;<br/>
+クライアントからのDNS更新要求時に、ホスト名だけを用います。  <br/>
+「example.com」ゾーンのPTRレコードとAレコードには共に、「foo.example.com」レコードが追加される。  <br/>
+尚、有効にするには、「allow client-updates」と指定します。  <br/>
+有効にした場合、FQDN で登録されることになり、上記では、「foo.exmaple.jp」がそのままレコードに追加される。</p>
+
+<p>dhcpで割り当てる情報を記載  <br/>
+192.168.10.0/24、デフォルトゲートウェイは192.168.10.1、DNSは8.8.8.8、設定ファイルの取得先は192.168.10.2、  <br/>
+範囲は200〜250、貸し出し時間は21600秒(6時間)、クライアントから指定してもよい最大貸し出し時間は41200秒。</p>
+
+<blockquote><p>subnet 192.168.10.0 netmask 255.255.255.0 {</p>
+
+<pre><code>   option routers                  192.168.10.1;  
+   option subnet-mask              255.255.255.0;  
+   option domain-name-servers      8.8.8.8;  
+   option time-offset              -18000;  
+   filename "/pxeboot/pxelinux.0";  
+   next-server 192.168.10.2;  
+   range dynamic-bootp 192.168.10.200 192.168.10.250;  
+   default-lease-time 21600;  
+   max-lease-time 43200;  
+</code></pre></blockquote>
+
+<p>起動  <br/>
+# /etc/init.d/dhcpd start<br/>
+# chkconfig dhcpd on</p>
+
+<h2>kickstart用設定</h2>
+
+<p># yum install -y tftp-server syslinux</p>
+
+<p># vi /etc/xinetd.d/tftp</p>
+
+<blockquote><p>service tftp<br/>
+{</p>
+
+<pre><code>   socket_type             = dgram  
+   protocol                = udp  
+   wait                    = yes  
+   user                    = root  
+   server                  = /usr/sbin/in.tftpd  
+   server_args             = -s /var/lib/tftpboot  
+   disable                 = no  
+   per_source              = 11  
+   cps                     = 100 2  
+   flags                   = IPv4  
+</code></pre>
+
+<p>}</p></blockquote>
+
+<p># /etc/init.d xinetd restart<br/>
+# chkconfig &#8211;list | grep tftp</p>
+
+<h3>必要ファイルの用意</h3>
+
+<p># mkdir -p /var/lib/tftpboot/pxeboot  <br/>
+# cp /usr/share/syslinux/pxelinux.0 /var/lib/tftpboot/pxeboot</p>
+
+<h4>起動用カーネルとかの準備</h4>
+
+<p># mkdir -p /var/lib/tftpboot/centos63_64  <br/>
+# wget http://ftp.iij.ad.jp/pub/linux/centos/6.3/isos/x86_64/CentOS-6.3-x86_64-bin-DVD1.iso</p>
+
+<p># mount -t iso9660 -o loop /mnt/KCentOS-6.3-x86_64-bin-DVD1.iso /mnt</p>
+
+<p># cp /mnt/images/pxeboot/vmlinuz /var/lib/tftpboot/centos63_64/.  <br/>
+# cp /mnt/images/pxeboot/initrd.img /var/lib/tftpboot/centos63_64/.</p>
+
+<p># umount /mnt</p>
+
+<h4>pxeブート用メッセージ,起動時にこのメッセージ、どのos入れるか選択可能</h4>
+
+<p># vi /var/lib/tftpboot/boot.msg</p>
+
+<blockquote><p>\==============================<br/>
+Welcome to Kickstart Installer<br/>
+\==============================<br/>
+1. CentOS 6.3 (x86_64) - Preconfigured  <br/>
+2. fedora18 (x86_64)</p></blockquote>
+
+<p>上記の選択肢とキックスタートの対応<br/>
+# vi /var/lib/tftpboot/pxelinux.cfg/default</p>
+
+<p># cat /var/lib/tftpboot/pxelinux.cfg/default</p>
+
+<blockquote><p>prompt 1<br/>
+display boot.msg</p>
+
+<p>label 1<br/>
+kernel /centos63_64/vmlinuz<br/>
+append initrd=/centos63_64/initrd.img ks=http://192.168.10.2/ks/centos63_64.cfg</p>
+
+<p>label 2<br/>
+kernel /fedora/vmlinuz<br/>
+append initrd=/fedora/initrd.img ks=http://192.168.10.2/ks/fedora_18_64.cfg</p></blockquote>
+
+<h3>kickstartコンフィグ作成</h3>
+
+<p># mkdir /var/www/ks  <br/>
+# cp /var/www/anaconda-ks.cfg /var/www/ks/.</p>
+
+<p># vi /var/www/ks/centos63_64.cfg <br/>
+これが元の形</p>
+
+<h3>nginx settings</h3>
+
+<p># vi /usr/local/src/nginx/conf/nginx.conf</p>
+
+<blockquote><p>worker_processes  1;<br/>
+events {<br/>
+   worker_connections  1024;<br/>
+}<br/>
+http {<br/>
+   include       mime.types;<br/>
+   default_type  application/octet-stream <br/>
+   sendfile        on;<br/>
+   keepalive_timeout  65;<br/>
+   server {</p>
+
+<pre><code>   listen       80;  
+   server_name  localhost;  
+   location / {  
+       root   /var/www;  
+       index  index.html index.htm;  
+   }  
+   error_page   500 502 503 504  /50x.html;  
+   location = /50x.html {  
+       root   html;  
+   }  
+</code></pre>
+
+<p>   }<br/>
+}</p></blockquote>
+
+<p># vi /var/lib/tftpboot/pxelinux.cfg/default</p>
+
+<blockquote><p>display boot.msg</p>
+
+<p>label 1<br/>
+kernel /centos63_64/vmlinuz<br/>
+append initrd=/centos63_64/initrd.img ks=http://192.168.10.2/ks/centos63_64.cfg</p>
+
+<p>label 2<br/>
+kernel /fedora/vmlinuz<br/>
+append initrd=/fedora/initrd.img ks=http://192.168.10.2/ks/fedora_18_64.cfg</p></blockquote>
+
+<p># wget http://192.168.10.2/ks/centos63_64.cfg</p>
+
+<p>cfgファイルが取得できれば、nginx設定、ディレクトリとかもOK</p>
+
+<h3>インストール</h3>
+
+<blockquote><p># virt-install &#8211;connect qemu:///system &#8211;hvm &#8211;name cent63_64 &#8211;ram 512 \<br/>
+&#8211;vcpus 1 &#8211;os-type Linux &#8211;disk path=/mnt/cent63_64.img &#8211;network network=vmnet \<br/>
+&#8211;keymap ja &#8211;nographics &#8211;location /mnt/CentOS-6.3-x86_64-bin-DVD1.iso \<br/>
+&#8211;extra-args=&#8217;console=tty0 console=ttyS0,115200n8 \<br/>
+ks=http://192.168.10.2/ks/centos63_64.cfg&#8217;</p></blockquote>
+
+<p>インストールできたーーー。</p>
+
+<p>色々調べて見て、うまくいかなかったのはiscsiのせいでも何でもなかった。
+qcow2を使う時は、virtーinstallのdisk指定の時に、format=qcow2って入れないとあかんかった。</p>
+
+<p>はぁ、長かった。
+で、何がしたかったんやったっけ（笑）</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[次回予告！？]]></title>

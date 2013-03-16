@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Dense Forest Blog</title>
+  <title>kvmでのkickstart - Dense Forest Blog</title>
   <meta name="author" content="Forest Hanter">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://k1374mr.github.com/">
+  <link rel="canonical" href="http://k1374mr.github.com/blog/2013/02/28/kickstart/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -62,15 +62,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/02/28/kickstart/">Kvmでのkickstart</a></h1>
+      <h1 class="entry-title">Kvmでのkickstart</h1>
     
     
       <p class="meta">
@@ -93,7 +90,7 @@
   </header>
 
 
-  <div class="entry-content"><h2>fedoraインストールできず。。。</h2>
+<div class="entry-content"><h2>fedoraインストールできず。。。</h2>
 
 <p>前回の自分への予告通り、fedora18をチャレンジ。。。。が、コンソール真っ白</p>
 
@@ -312,69 +309,16 @@ qcow2を使う時は、virtーinstallのdisk指定の時に、format=qcow2って
 <p>はぁ、長かった。
 で、何がしたかったんやったっけ（笑）</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/27/what/">次回予告！？</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">Forest Hanter</span></span>
 
-<time datetime="2013-02-27T09:00:00+09:00" pubdate data-updated="true">Feb 27<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>なぜか。。。</h2>
-
-<p>なぜか、Googleのwebマスターツールで見るとlxcで検索した結果にこのサイトが
-入ったよう。</p>
-
-<h3>なんで（笑）</h3>
-
-<p>lxc、まだやってない。先にfedora18いれてみようと思ってたのですが、<br/>
-fedora → lxc でやってみるかぁ。<br/>
-fedoraの新しいの、日経linuxでもやってましたがいろいろ変わっているみたいです。</p>
-
-<p>Let&#8217;s try!!!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/21/inotify/">Inotifyでディレクトリの更新チェック</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -386,294 +330,34 @@ fedoraの新しいの、日経linuxでもやってましたがいろいろ変わ
   
 
 
-<time datetime="2013-02-21T09:00:00+09:00" pubdate data-updated="true">Feb 21<span>st</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>octopressでmarkdown作って、ログインしてからdeployとか、、、、、めんどいわい！<br/>
-と思ったので、これに挑戦。<br/>
-kernel 2.6なんぼから使えるようになったinotifyは、前からあったdnotifyと違って、<br/>
-何が変わったかまで教えてくれるそうな。。。。dnotifyってなんでしょうね（笑）
-それはあくまでカーネル内部の話で、残念ながらc言語もまだわからず、
-カーネルいじったり使ったりなんてそんな、、、、まだ無理。</p>
-
-<h2>そこで、inotify-toolsの登場。</h2>
-
-<p>ようするに、素人でも使えるコマンドを装備できます。</p>
-
-<h3>1. インストール</h3>
-
-<p>なんと、centosにはrpmないみたい。。。。そこでcentosの未来人であるfedoraさんに相談。<br/>
-あった。<br/>
-  リポジトリが欲しいな</p>
-
-<blockquote><p># rpm -ivh http://ftp.riken.jp/Linux/fedora/epel/6/i386/epel-release-6-8.noarch.rpm<br/>
-# cat /etc/yum.repos.d/epel.repo<br/>
-# rpm -ivh inotify-tools -y<br/>
-# inotifywait &#8211;help<br/>
- 入った。rpmいいね！</p></blockquote>
-
-<h3>2. さっそく使ってみた。</h3>
-
-<blockquote><p># inotifywait /tmp -m          これの前にscreenか何かで別コンソール用意</p>
-
-<blockquote><p>Setting up watches.<br/>
-Watches established.<br/>
-/tmp/ MODIFY test<br/>
-/tmp/ OPEN test<br/>
-/tmp/ MODIFY test<br/>
-/tmp/ CLOSE_WRITE,CLOSE test<br/>
-/tmp/ CREATE test2<br/>
-/tmp/ OPEN test2<br/>
-/tmp/ ATTRIB test2<br/>
-/tmp/ CLOSE_WRITE,CLOSE test2</p></blockquote></blockquote>
-
-<p>このコマンドは、監視用かな。
-inotifywaitは、オプション無しだと一回何か起こったら終わり。
-常駐させる時は-mを。
-他にもよく使うのは、rかな。recursive、再帰的。綴りあってるんかな。</p>
-
-<p>もう一つのコマンド、inotifywatch</p>
-
-<blockquote><p># inotifywatch -t 20 /tmp -r</p>
-
-<blockquote><p>Establishing watches&#8230;<br/>
-Finished establishing watches, now collecting statistics.<br/>
-total  attrib  close_write  open  filename<br/>
-3      1       1            1     /tmp/</p></blockquote></blockquote>
-
-<p>-tは待つ秒数を指定、結果にはその間の変更の統計が表示。</p>
-
-<h3>3. 結論</h3>
-
-<p>どっち使うかは考えよう。編集中のが更新されたら嫌やし、何かキーワード決めて、それがあったらとか。
-to be continue&#8230;</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+<time datetime="2013-02-28T09:00:00+09:00" pubdate data-updated="true">Feb 28<span>th</span>, 2013</time>
       
-  <header>
+
+
+    </p>
     
-      <h1 class="entry-title"><a href="/blog/2013/02/19/nestkvm/">KVM Nest</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
+      <div class="sharing">
   
-
-
-<time datetime="2013-02-19T09:00:00+09:00" pubdate data-updated="true">Feb 19<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>KVMのネスト</h1>
-
-<p> kvm on kvmをしてみたい。vps一台で、openvswitchとかlxcとかnginxとか試したいじゃないですかぁ？
- でも、何台も借りるのはコスパが悪い。そこでこいつの出番
- ♪デバーン、デバーン、人は誰ーでもー</p>
-
-<ol>
-<li><p>カーネルのアップデート
-nestはカーネル3.2以降で使えるらしい。なので、当時の最新カーネル3.7系を使用</p>
-
-<ul>
-<li>cd /usr/local/src/</li>
-<li>wget http://www.kernel.org/pub/linux/kernel/v3.0/linux-3.7.1.tar.bz2</li>
-<li>tar jxvf linux-3.7.1.tar.bz2</li>
-<li>yum install -y gcc make</li>
-<li>cd /usr/local/src/linux-3.7.1</li>
-<li>cp -p /boot/config-2.6.32-220.el6.x86_64 ./.config</li>
-<li>make oldconfig   → ぜーんぶyesでいいんじゃないかな。</li>
-<li><p>vi .config<br/>
-ここで IP: Netfilter Configuration を全部有効に。  menuconfigとかは使ってません。パッケージ入れるのめんどくさかったので。<br/>
-これがないと、iptables使ってのsnat、dnat、masquaradeが出来ません。なんでやねーん。みんなあんまり使わないのかな。</p></li>
-<li><p>make &amp;&amp; make modules_install &amp;&amp; make install</p></li>
-<li>うまくいったら、vi /boot/grub/grub.conf を修正。<br/>
-default=0</li>
-<li>勇気を出して再起動。上がってこない、つながらない場合は失敗かな。</li>
-<li><p>ここで3回失敗<br/>
- # iptables -L -t nat<br/>
- # lsmod | egrep -i &#8216;(nat|masq)&#8217;<br/>
-   ipt_MASQUERADE          2401  3<br/>
-   xt_nat                  2055  1<br/>
-   iptable_nat             3620  1<br/>
-   nf_nat_ipv4             4040  1 iptable_nat<br/>
-   nf_nat                 19522  4 ipt_MASQUERADE,xt_nat,iptable_nat,nf_nat_ipv4<br/>
-   ip_tables              19992  2 iptable_filter,iptable_nat<br/>
-   ebtable_nat             2008  0<br/>
-   ebtables               27154  1 ebtable_nat<br/>
-   nf_conntrack           87254  7 ipt_MASQUERADE,iptable_nat,nf_conntrack_ipv4,nf_nat_ipv4,nf_nat,nf_conntrack_ipv6,xt_state</p>
-
-<p>あった。。。ほっ</p></li>
-</ul>
-</li>
-<li><p>nest設定</p>
-
-<ul>
-<li><p>設定
-こんなの作って<br/>
-  # more /etc/modprobe.d/nest.conf<br/>
-  options kvm_amd nested=1</p>
-
-<p>  # modprove -r kvm_amd<br/>
-  # modprove kvm_amd<br/>
-すると<br/>
-  # modinfo kvm_amd<br/>
-   parm:           nested:int</p>
-
-<p>  # more /sys/module/kvm_intel/parameters/nested<br/>
-   1</p></li>
-</ul>
-
-
-<p> こういうのが出ていればOK？<br/>
- /sys/module配下のファイルはあまり見慣れてないけど、さらっと見れたらカッコいい。<br/>
- 機会があれば調べてみよう</p></li>
-</ol>
-
-
-<p>あとは、kvmでvm作成。。。。。できたーーーー。</p>
-
-<p>ところで、markdownで書くのって慣れてないとめんどくさいな。htmlのが楽。。。
-他のブログってどうやってるんやろ。</p>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://k1374mr.github.com/blog/2013/02/28/kickstart/" data-via="" data-counturl="http://k1374mr.github.com/blog/2013/02/28/kickstart/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
 </div>
-  
-  
 
-
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/15/test-git/">ここまでくるのが大変だった。。。</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-15T16:58:00+09:00" pubdate data-updated="true">Feb 15<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>ここまできた流れ</h1>
-
-<ol>
-<li><p>kvm インストール(GUIなし,nest)</p>
-
-<p> 　　　iptablesでDNAT,SNAT、マスカレードするときはカーネルの.configいじらないといけなかった。3回コンパイル、2日かかった。</p></li>
-<li><p>nginx インストール</p></li>
-</ol>
-
-
-<p>　　これは簡単。コンパイルオプションも今は適当。後日勉強予定。。。。そう、予定。</p>
-
-<ol>
-<li>octopressインストール</li>
-</ol>
-
-
-<p>　　これも、gitでもってきただけ。あとはrbenv入れたり。</p>
-
-<ol>
-<li>git用意</li>
-</ol>
-
-
-<p>　　これは疲れた。。。githubってそれだけでwebサイト作れるんですねぇ。</p>
-
-<ol>
-<li>octopress成果物をgitへ</li>
-</ol>
-
-
-<p>　　dropboxで作ったMarkdownをoctpress（サーバ）へ→コード作成してgithubへ。そこで公開。ここは自動化できないかな。</p>
-
-<p>そう、nginxも何も要らなかった。。。。。。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+        <a class="basic-alignment left" href="/blog/2013/02/27/what/" title="Previous Post: 次回予告！？">&laquo; 次回予告！？</a>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/14/kvm-nest/">Kvm Nest</a></h1>
-    
-    
-      <p class="meta">
-        
+      
+    </p>
+  </footer>
+</article>
 
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-14T09:23:00+09:00" pubdate data-updated="true">Feb 14<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">
 </div>
-  
-  
 
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -718,6 +402,7 @@ ITには向いてないと思うITエンジニア(2006年くらいから)<br>
 
   
 </aside>
+
 
     </div>
   </div>
